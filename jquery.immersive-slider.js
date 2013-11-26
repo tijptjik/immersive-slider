@@ -4,7 +4,7 @@
  * Copyright 2013 Pete Rojwongsuriya.
  * http://www.thepetedesign.com
  *
- * Create an immersive slider that changes the 
+ * Create an immersive slider that changes the
  * the whole container to match the viewing slide
  *
  * https://github.com/peachananr/immersive-slider
@@ -12,7 +12,7 @@
  * ========================================================== */
 
 !function($){
-  
+
   var defaults = {
     animation: "bounce",
     slideSelector: ".slide",
@@ -21,13 +21,13 @@
     pagination: true,
     loop: true,
     autoStart: 4000
-	};
-  
+  };
+
   /*------------------------------------------------*/
-	/*  Credit: Eike Send for the awesome swipe event */    
-	/*------------------------------------------------*/
-	
-	$.fn.swipeEvents = function() {
+  /*  Credit: Eike Send for the awesome swipe event */
+  /*------------------------------------------------*/
+
+  $.fn.swipeEvents = function() {
       return this.each(function() {
 
         var startX,
@@ -73,56 +73,56 @@
 
       });
     };
-  
+
   $.fn.transformSlider = function(settings, pos) {
     var el = $(this)
     switch(settings.animation) {
       case 'slide':
         el.addClass("ease").css({
-          "-webkit-transform": "translate3d(" + pos + "%, 0, 0)", 
-          "-moz-transform": "translate3d(" + pos + "%, 0, 0)", 
-          "-ms-transform": "translate3d(" + pos + "%, 0, 0)", 
+          "-webkit-transform": "translate3d(" + pos + "%, 0, 0)",
+          "-moz-transform": "translate3d(" + pos + "%, 0, 0)",
+          "-ms-transform": "translate3d(" + pos + "%, 0, 0)",
           "transform": "translate3d(" + pos + "%, 0, 0)"
         });
       break;
       case 'slideUp':
         el.addClass("ease").css({
-          "-webkit-transform": "translate3d(0, " + pos + "%, 0)", 
-          "-moz-transform": "translate3d(0, " + pos + "%, 0)", 
-          "-ms-transform": "translate3d(0, " + pos + "%, 0)", 
+          "-webkit-transform": "translate3d(0, " + pos + "%, 0)",
+          "-moz-transform": "translate3d(0, " + pos + "%, 0)",
+          "-ms-transform": "translate3d(0, " + pos + "%, 0)",
           "transform": "translate3d(0, " + pos + "%, 0)"
         });
       break;
       case 'bounce':
         el.addClass("bounce").css({
-          "-webkit-transform": "translate3d(" + pos + "%, 0, 0)", 
-          "-moz-transform": "translate3d(" + pos + "%, 0, 0)", 
-          "-ms-transform": "translate3d(" + pos + "%, 0, 0)", 
+          "-webkit-transform": "translate3d(" + pos + "%, 0, 0)",
+          "-moz-transform": "translate3d(" + pos + "%, 0, 0)",
+          "-ms-transform": "translate3d(" + pos + "%, 0, 0)",
           "transform": "translate3d(" + pos + "%, 0, 0)"
         });
       break;
       case 'bounceUp':
         el.addClass("bounce").css({
-          "-webkit-transform": "translate3d(0, " + pos + "%, 0)", 
-          "-moz-transform": "translate3d(0, " + pos + "%, 0)", 
-          "-ms-transform": "translate3d(0, " + pos + "%, 0)", 
+          "-webkit-transform": "translate3d(0, " + pos + "%, 0)",
+          "-moz-transform": "translate3d(0, " + pos + "%, 0)",
+          "-ms-transform": "translate3d(0, " + pos + "%, 0)",
           "transform": "translate3d(0, " + pos + "%, 0)"
         });
       break;
       case 'fade':
         el.addClass("no-animation").fadeOut("slow", function() {
           el.css({
-            "-webkit-transform": "translate3d(" + pos + "%, 0, 0)", 
-            "-moz-transform": "translate3d(" + pos + "%, 0, 0)", 
-            "-ms-transform": "translate3d(" + pos + "%, 0, 0)", 
+            "-webkit-transform": "translate3d(" + pos + "%, 0, 0)",
+            "-moz-transform": "translate3d(" + pos + "%, 0, 0)",
+            "-ms-transform": "translate3d(" + pos + "%, 0, 0)",
             "transform": "translate3d(" + pos + "%, 0, 0)"
           }).fadeIn("slow");
         });
-        
+
       break;
     }
   }
-  
+
   $.fn.positionSlides = function(settings, index) {
     var el = $(this);
     if (settings.animation == "slideUp" || settings.animation == "bounceUp") {
@@ -135,26 +135,26 @@
       });
     }
   }
-  
-  
-  
+
+
+
   $.fn.immersive_slider = function(options){
     var settings = $.extend({}, defaults, options),
         el = $(this),
         cssblur = "",
         pagination = "";
-        
-    // Add all the gs sepecific classes  
+
+    // Add all the gs sepecific classes
     el.addClass("immersive_slider")
     el.find(settings.slideSelector).addClass("is-slide");
-    
-    // Use CSS to blur the first image the plugin found automatically 
+
+    // Use CSS to blur the first image the plugin found automatically
     if (settings.cssBlur == true) {
       el.find(".is-slide img:first-child").each(function( index ) {
         var activeclass = ""
         if(index == 0) activeclass = "active"
         var img = $(this);
-        
+
         $(settings.container).addClass("is-container").prepend("<div id='slide_" + (index + 1) + "_bg' class='is-background gs_cssblur " + activeclass + "'>" + img.clone().wrap("<div />").parent().html() + "</div>")
         $("#slide_" + (index + 1) + "_bg").positionSlides(settings, index)
       });
@@ -162,19 +162,20 @@
       el.find(".is-slide").each(function( index ) {
         var activeclass = ""
         if(index == 0) activeclass = "active"
-        var img = "<img src='"+ $(this).data("blurred") +"'>";
-        
-        $(settings.container).addClass("is-container").prepend("<div id='slide_" + (index + 1) + "_bg' class='is-background " + activeclass + "'>" + img + "</div>")
-        $("#slide_" + (index + 1) + "_bg").positionSlides(settings, index)
+        var bgURL = 'url(' + $(this).data("blurred") + ')'
+        var bgID = "slide_" + (index + 1) + "_bg"
+
+        $(settings.container).addClass("is-container").prepend("<div id='"+ bgID +"' class='is-background " + activeclass + "'></div>")
+        $('#' + bgID).css('background-image', bgURL).positionSlides(settings, index)
       });
     }
-    
+
     if(settings.autoStart != 0 || settings.autoStart != false) {
       setInterval(function() {
         el.moveNext();
       }, settings.autoStart);
     }
-    
+
     $(settings.container).find(".is-background").wrapAll( "<div class='is-bg-overflow' />");
     el.find(".is-slide").wrapAll( "<div class='is-overflow' />");
     el.find(".is-slide").each(function( index ) {
@@ -186,13 +187,13 @@
         pagination += "<li><a class='is-page " + activeclass + "' href='#slide_" + (index + 1) + "'></a></li>"
       }
     });
-    
+
     $("<ul class='is-pagination'>"+pagination+"</ul>").appendTo(el)
-    
+
     if(settings.pagination == true)  {
       $(".is-pagination li a").click(function (){
         var page_index = $(this).attr("href");
-        
+
         if (!$(this).hasClass("active")) {
           el.moveSlider(settings, page_index)
         }
@@ -207,7 +208,7 @@
      el.movePrev();
      return false;
    });
-    
+
     $.fn.moveSlider = function(settings, page_index) {
       var el = $(this),
           current = el.find(".is-slide.active"),
@@ -217,7 +218,7 @@
       if(next) {
         current.removeClass("active")
         next.addClass("active")
-        
+
         bg_current.removeClass("active")
         bg_next.addClass("active")
         $(".is-pagination li a" + ".active").removeClass("active");
@@ -227,7 +228,7 @@
       el.find(".is-overflow").transformSlider(settings, pos);
       $(settings.container).find(".is-bg-overflow").transformSlider(settings, pos);
     }
-    
+
     $.fn.moveNext = function() {
       var el = $(this),
         total = el.find(settings.slideSelector).length + 1,
@@ -238,7 +239,7 @@
         if (settings.loop == true ) el.moveSlider(settings, "#slide_1")
       }
     }
-    
+
     $.fn.movePrev = function() {
       var el = $(this),
         total = el.find(settings.slideSelector).length + 1,
@@ -249,15 +250,13 @@
         if (settings.loop == true ) el.moveSlider(settings, "#slide_" + (total - 1 ))
       }
     }
-    
-    el.swipeEvents().bind("swipeRight",  function(){ 
+
+    el.swipeEvents().bind("swipeRight",  function(){
       el.movePrev();
-    }).bind("swipeLeft", function(){ 
-      el.moveNext(); 
+    }).bind("swipeLeft", function(){
+      el.moveNext();
     });
-    
+
   }
-  
+
 }(window.jQuery);
-
-
