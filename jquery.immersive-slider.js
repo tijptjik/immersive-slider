@@ -20,7 +20,8 @@
     cssBlur: false,
     pagination: true,
     loop: true,
-    autoStart: 4000
+    autoStart: 4000,
+    bgColor: ['#FCF3EE', '#ADADC6', '#66547C']
   };
 
   /*------------------------------------------------*/
@@ -166,7 +167,7 @@
         var bgID = "slide_" + (index + 1) + "_bg"
 
         $(settings.container).addClass("is-container").prepend("<div id='"+ bgID +"' class='is-background " + activeclass + "'></div>")
-        $('#' + bgID).css('background-image', bgURL).positionSlides(settings, index)
+        $('#' + bgID).css({'background-image': bgURL, 'background-color' : settings.bgColor[(index % settings.bgColor.length)]}).positionSlides(settings, index)
       });
     }
 
